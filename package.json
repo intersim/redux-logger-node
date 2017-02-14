@@ -1,0 +1,16 @@
+{
+  "name": "redux-logger-node",
+  "version": "1.0.0",
+  "description": "A dev tool for projects using Redux in Node.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "emily.intersimone@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "express": "^4.14.1",
+    "redux": "^3.6.0"
+  }
+}
