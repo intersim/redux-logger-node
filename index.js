@@ -17,13 +17,17 @@ function getObjectDiffKeys(obj1, obj2) {
 
 module.exports = store => next => action => {
 	const prevState = Object.assign({}, store.getState());
-
-  console.log(chalk.bold(`Dispatching`), `'${action.type}'`)
-
   let result = next(action)
-
   const nextState = Object.assign({}, store.getState());
 
-  console.log(chalk.bold(`State Diff\n`), chalk.red(`- ${JSON.stringify(prevState)}\n`), chalk.green(`+ ${JSON.stringify(nextState)}`))
+  const diffArr = getObjectDiffKeys(prevState, nextState);
+
+  console.log(chalk.bold(`'${action.type}':`))
+  diffArr.forEach(key => {
+    console.log('  ' + chalk.bold(`${key}: `));
+    console.log('    ' + chalk.red(`- ${JSON.stringify(prevState[key])}`))
+    console.log('    ' + chalk.green(`+ ${JSON.stringify(nextState[key])}`))
+  });
+
   return result
 }
