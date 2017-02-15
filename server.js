@@ -2,17 +2,27 @@ const app = require('express')();
 const { createStore, applyMiddleware } = require('redux');
 const logger = require('./index');
 
-const sayHello = () => ({ type: 'SAY_HELLO', message: "Hello!" });
+const sayHello = () => ({ type: 'SAY_HELLO', message: "hello!" });
 
-const sayGoodbye = () => ({ type: 'SAY_GOODBYE', message: "Goodbye!" });
+const sayGoodbye = () => ({ type: 'SAY_GOODBYE', message: "goodbye!" });
 
-const reducer = (state = {message: null}, action) => {
+const moveLeft = () => ({ type: 'MOVE_LEFT', direction: "left" });
+
+const moveRight = () => ({ type: 'MOVE_RIGHT', direction: "right" });
+
+const reducer = (state = {message: null, direction: null}, action) => {
   switch (action.type) {
     case 'SAY_HELLO':
-      return Object.assign({}, {message: action.message})
+      return Object.assign({}, state, {message: action.message})
 
     case 'SAY_GOODBYE':
-      return Object.assign({}, {message: action.message})
+      return Object.assign({}, state, {message: action.message})
+
+    case 'MOVE_LEFT':
+      return Object.assign({}, state, {direction: action.direction})
+
+    case 'MOVE_RIGHT':
+      return Object.assign({}, state, {direction: action.direction})
 
     default:
       return state;
@@ -29,6 +39,16 @@ app.get('/hello', (req, res, next) => {
 app.get('/goodbye', (req, res, next) => {
   store.dispatch(sayGoodbye());
   res.send(store.getState().message);
+});
+
+app.get('/left', (req, res, next) => {
+  store.dispatch(moveLeft());
+  res.send(store.getState().direction);
+});
+
+app.get('/right', (req, res, next) => {
+  store.dispatch(moveRight());
+  res.send(store.getState().direction);
 });
 
 app.use((err, req, res, next) => console.log("Something went wrong...", err));
